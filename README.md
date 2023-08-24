@@ -29,7 +29,7 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 [MATH MAGICIAN APP] <a name="about-project"></a>
+# 📖 [Visionary Bookstore] <a name="about-project"></a>
 
 **[Visionary Bookstore]** website is an application that allows users to:
 <ul>

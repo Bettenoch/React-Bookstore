@@ -1,0 +1,22 @@
+.categories-container {
+  display: flex;
+  padding: 2rem 8.188rem 1.625rem 1.688rem;
+  margin: 2.313rem 6.25rem 0;
+  background-color: #fff;
+}
+
+.category-pop {
+  padding-bottom: 10rem;
+}
+
+.check-status-btn {
+  background-color: #0290ff;
+  color: #fff;
+  padding: 1rem 3rem;
+  border: none;
+  font-size: 0.813rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  text-align: center;
+  border-radius: 5px;
+}

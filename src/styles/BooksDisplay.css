@@ -1,0 +1,133 @@
+.book-container {
+  padding: 0 4rem;
+  margin: 2.313rem 6.25rem 0;
+}
+
+.books-to-read {
+  display: flex;
+  padding: 2rem 8.188rem 1.625rem 1.688rem;
+  border-radius: 4px;
+  border: solid 1px #e8e8e8;
+  background-color: #fff;
+}
+
+.books-to-read:hover {
+  background-color: #e8e8e8;
+}
+
+.book-category {
+  margin: 0 2.438rem 0 0;
+  opacity: 0.5;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #121212;
+}
+
+.book-title {
+  margin: 0.188rem 20.188rem 0 0;
+  font-size: 1.375rem;
+  font-weight: bold;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+  color: #121212;
+}
+
+.book-author {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: #4386bf;
+}
+
+.book-btns {
+  display: flex;
+  gap: 2.125rem;
+  margin-top: 1.313rem;
+}
+
+.book-btns li {
+  margin: 0.188rem 0.938rem 0.125rem 0;
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: #4386bf;
+  cursor: pointer;
+}
+
+.removeButton {
+  border: none;
+  background: none;
+  outline: none;
+  color: #4386bf;
+}
+
+.add-info {
+  display: flex;
+  gap: 4rem;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 1.313rem;
+}
+
+.circular-icon {
+  border-radius: 50%;
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 5px solid #307bbe;
+  border-left-color: #e8e8e8;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.circular-report {
+  display: flex;
+  flex-direction: column;
+}
+
+.percentage {
+  margin: 0.063rem 5.75rem 0 0.688rem;
+  font-size: 2rem;
+  color: #121212;
+}
+
+.progress-report {
+  margin: 0.438rem 4.938rem 0.75rem 0.75rem;
+  opacity: 0.5;
+  font-size: 0.875rem;
+  color: #121212;
+}
+
+.progress-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-chapter {
+  opacity: 0.5;
+  font-size: 0.813rem;
+  font-weight: 300;
+  color: #121212;
+  white-space: nowrap;
+}
+
+.current-chapter {
+  font-size: 1rem;
+  margin-bottom: 1.438rem;
+  font-weight: 300;
+  letter-spacing: -0.4px;
+  color: #121212;
+}
+
+.update-progress-btn {
+  padding: 0.438rem 1.188rem 0.5rem 1.375rem;
+  border-radius: 3px;
+  background-color: #0290ff;
+  white-space: nowrap;
+  border: none;
+  font-size: 0.813rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #fff;
+}

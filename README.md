@@ -160,6 +160,7 @@ If you like this project show some love by commenting and follow me on Github
 
 
 I would like to thank Microverse staff for their support and robust program.
+I would also like to thank Zeplin designs for offering such an amazing bookstore design.
 
 <!-- LICENSE -->
 

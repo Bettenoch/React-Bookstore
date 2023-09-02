@@ -5,18 +5,18 @@ const url = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstor
 // 2uLpDoKDZ8I23S6ajxuI
 
 const initialState = {
-  books: {},
-  isLoading: false,
-  error: null,
+  books: [],
+  status: 'nothing',
 
 };
 
 export const getBooks = createAsyncThunk(
   'getBooksFromApi',
-  async (payload, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const res = await axios(`${url}/books`);
-      return res.data;
+      const res = await axios.get(`${url}/books`);
+      const { data } = res;
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -25,11 +25,11 @@ export const getBooks = createAsyncThunk(
 
 export const postBooks = createAsyncThunk(
   'postBooks',
-  async (book, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      await axios.post(`${url}/books`, book);
-      const response = await axios.get(`${url}/books`);
-      return response.data;
+      const res = await axios.post(`${url}/books`, data);
+      thunkAPI.dispatch(getBooks());
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -40,59 +40,31 @@ export const deleteBookFromList = createAsyncThunk(
   'removeBook',
   async (bookId, thunkAPI) => {
     try {
-      await axios.delete(`${url}/books/${bookId}`);
-      const response = await axios.get(`${url}/books`);
-      return response.data;
+      const res = await axios.delete(`${url}/books/${bookId}`, JSON.stringify({ item_id: bookId }));
+      thunkAPI.dispatch(getBooks());
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
 const booksSlice = createSlice({
-  name: 'books',
+  name: 'book',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
 
       .addCase(getBooks.pending, (state) => {
-        state.isLoading = true;
+        state.status = 'loading';
       })
-      .addCase(getBooks.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.books = payload;
+      .addCase(getBooks.fulfilled, (state, action) => {
+        state.status = 'success';
+        const data = action.payload;
+        state.books = data;
       })
-      .addCase(getBooks.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-
-      .addCase(postBooks.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      .addCase(postBooks.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.books = payload;
-      })
-
-      .addCase(postBooks.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-
-      .addCase(deleteBookFromList.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      .addCase(deleteBookFromList.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.books = payload;
-      })
-
-      .addCase(deleteBookFromList.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
+      .addCase(getBooks.rejected, (state) => {
+        state.status = 'failed';
       });
   },
 });

@@ -1,16 +1,13 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { deleteBookFromList } from '../Redux/books/bookSlice';
 
-const BooksDisplay = ({ itemId, book }) => {
+const BooksDisplay = ({
+  id, category, title, author,
+}) => {
   const dispatch = useDispatch();
 
-  const {
-    title, author, category,
-  } = book;
-  const id = itemId;
   return (
     <>
       <section>
@@ -29,20 +26,14 @@ const BooksDisplay = ({ itemId, book }) => {
 };
 
 BooksDisplay.propTypes = {
-  book: PropTypes.shape({
-    item_id: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-  }),
-  itemId: PropTypes.string,
+  category: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 BooksDisplay.defaultProps = {
-  book: {
-    item_id: '', title: '', author: '', category: '',
-  },
-  itemId: '',
+  category: undefined,
 };
 
 export default BooksDisplay;

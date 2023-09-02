@@ -1,48 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
-import { addBook } from '../Redux/books/bookSlice';
+import { postBooks, getBooks } from '../Redux/books/bookSlice';
 import BooksDisplay from './BooksDisplay';
 
 const AddBook = () => {
+  const allBooks = useSelector((store) => store.book);
+  const books = useSelector((store) => store.book.books);
   const dispatch = useDispatch();
-  const [booksData, setBooksData] = useState({ title: '', author: '' });
+
+  useEffect(() => {
+    dispatch(getBooks());
+  }, [dispatch]);
+
+  const [book, setBook] = useState({
+    title: '',
+    author: '',
+  });
+
+  let display;
+
+  if (allBooks.status === 'loading') {
+    display = <span>Loading...</span>;
+  } else if (allBooks.status === 'failed') {
+    display = <span>Something went wrong!</span>;
+  } else {
+    const entries = Object.keys(books);
+    display = entries.map((book) => {
+      const bookInfo = books[book];
+      return (
+        <article key={book}>
+          <BooksDisplay
+            id={book}
+            category={bookInfo[0].category}
+            title={bookInfo[0].title}
+            author={bookInfo[0].author}
+          />
+
+        </article>
+      );
+    });
+  }
 
   const handleEvent = (e) => {
-    const { name, value } = e.target;
-    setBooksData((previousData) => ({
-      ...previousData,
-      [name]: value,
+    setBook((book) => ({
+      ...book,
+      [e.target.name]: e.target.value,
     }));
   };
 
-  const handleBooks = () => {
-    if (booksData.title && booksData.author) {
-      dispatch(addBook(booksData));
-      setBooksData({
-        title: '',
-        author: '',
-      });
+  const submitBooks = (e) => {
+    e.preventDefault();
+    if (book.title.trim() && book.author.trim()) {
+      dispatch(postBooks({
+        item_id: uuidv4(),
+        title: book.title,
+        author: book.author,
+        category: 'Fiction',
+      }));
     }
+    setBook({
+      title: '',
+      author: '',
+    });
   };
-  const books = useSelector((state) => state.books);
+
   return (
     <>
       <section>
-        <article className="">
-          {books.map((book) => (
-            <BooksDisplay
-              key={book.item_id}
-              bookId={book.item_id}
-              title={book.title}
-              author={book.author}
-            />
-          ))}
+        <article className="book-co">
+          {display}
         </article>
-        <form action="">
+        <form onSubmit={submitBooks}>
           <h3>Add New Book</h3>
-          <input name="title" type="text" placeholder="Book title..." value={booksData.title} onChange={handleEvent} />
-          <input name="author" type="text" placeholder="Book author..." value={booksData.author} onChange={handleEvent} />
-          <button type="button" className="add-btn" onClick={handleBooks}>Add Book</button>
+          <input type="text" name="title" id="title" value={book.title} placeholder="Book title..." onChange={handleEvent} required />
+          <input type="text" name="author" id="author" value={book.author} placeholder="Book author..." onChange={handleEvent} required />
+          <button type="submit" className="add-btn">Add Book</button>
         </form>
       </section>
     </>

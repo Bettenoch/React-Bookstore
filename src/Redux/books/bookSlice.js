@@ -1,49 +1,72 @@
-// ./src/redux/books/booksSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-import { createSlice } from '@reduxjs/toolkit';
+const url = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/2uLpDoKDZ8I23S6ajxuI';
+// 2uLpDoKDZ8I23S6ajxuI
 
-const initialState = [
-  {
-    item_id: 'item1',
-    title: 'Lone Women',
-    author: 'Ema Cline',
-    category: 'Fiction',
+const initialState = {
+  books: [],
+  status: 'nothing',
+
+};
+
+export const getBooks = createAsyncThunk(
+  'getBooksFromApi',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(`${url}/books`);
+      const { data } = res;
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   },
-  {
-    item_id: 'item2',
-    title: 'Romantic Comedy',
-    author: 'Mathew Desmond',
-    category: 'Fiction',
-  },
-  {
-    item_id: 'item3',
-    title: 'The Covenant of a Woman',
-    author: 'Abraham Verghese',
-    category: 'Nonfiction',
-  },
+);
 
-];
+export const postBooks = createAsyncThunk(
+  'postBooks',
+  async (data, thunkAPI) => {
+    try {
+      const res = await axios.post(`${url}/books`, data);
+      thunkAPI.dispatch(getBooks());
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 
+export const deleteBookFromList = createAsyncThunk(
+  'removeBook',
+  async (bookId, thunkAPI) => {
+    try {
+      const res = await axios.delete(`${url}/books/${bookId}`, JSON.stringify({ item_id: bookId }));
+      thunkAPI.dispatch(getBooks());
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 const booksSlice = createSlice({
-  name: 'books',
+  name: 'book',
   initialState,
-  reducers: {
-    addBook: (state, action) => {
-      const userBook = {
-        item_id: `item${state.length + 1}`,
-        title: action.payload.title,
-        author: action.payload.author,
-        category: 'Fiction',
-      };
-      state.push(userBook);
-    },
-    removeBook: (state, action) => {
-      const exit = action.payload.id;
-      return state.filter((book) => book.item_id !== exit);
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+
+      .addCase(getBooks.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getBooks.fulfilled, (state, action) => {
+        state.status = 'success';
+        const data = action.payload;
+        state.books = data;
+      })
+      .addCase(getBooks.rejected, (state) => {
+        state.status = 'failed';
+      });
   },
 });
-
-export const { addBook, removeBook } = booksSlice.actions;
 
 export default booksSlice.reducer;

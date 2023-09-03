@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { postBooks, getBooks } from '../Redux/books/bookSlice';
 import BooksDisplay from './BooksDisplay';
+import '../styles/AddBook.css';
 
 const AddBook = () => {
   const allBooks = useSelector((store) => store.book);
@@ -67,15 +68,18 @@ const AddBook = () => {
 
   return (
     <>
-      <section>
+      <section className="form-container">
         <article className="book-co">
           {display}
         </article>
-        <form onSubmit={submitBooks}>
-          <h3>Add New Book</h3>
-          <input type="text" name="title" id="title" value={book.title} placeholder="Book title..." onChange={handleEvent} required />
-          <input type="text" name="author" id="author" value={book.author} placeholder="Book author..." onChange={handleEvent} required />
-          <button type="submit" className="add-btn">Add Book</button>
+        <form onSubmit={submitBooks} className="form-field">
+          <div className="form-line" />
+          <h3 className="form-title">Add New Book</h3>
+          <article className="form-info">
+            <input type="text" name="title" id="title" value={book.title} placeholder="Book title..." onChange={handleEvent} required />
+            <input type="text" name="author" id="author" value={book.author} placeholder="Book author..." onChange={handleEvent} required />
+            <button type="submit" className="add-btn">Add Book</button>
+          </article>
         </form>
       </section>
     </>

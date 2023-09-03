@@ -1,0 +1,10 @@
+.categories-container {
+    display: flex;
+    padding: 2rem 8.188rem 1.625rem 1.688rem;
+    margin: 2.313rem 6.25rem 0;
+    background-color: #fff;
+}
+.category-pop {
+    padding-bottom: 10rem;
+    
+}

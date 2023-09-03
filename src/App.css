@@ -4,8 +4,9 @@
   padding: 0;
   list-style: none;
 }
+
 .main-container {
   display: flex;
   flex-direction: column;
-  background-color: #f5f6fa
+  background-color: #f5f6fa;
 }

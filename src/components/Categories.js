@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Categories.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkStatus } from '../Redux/categories/categoriesSlice';
+import { checkBookStatus } from '../Redux/categories/categoriesSlice';
 
 const Categories = () => {
   const categories = useSelector((state) => state.categories);
@@ -16,7 +16,7 @@ const Categories = () => {
             type="button"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(checkStatus());
+              dispatch(checkBookStatus());
             }}
           >
             Check Status
